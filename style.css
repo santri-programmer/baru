@@ -1,0 +1,233 @@
+/* Style dasar agar tombol tampil konsisten */
+button {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Tombol utama upload dan hapus */
+#btnUpload,
+#btnHapus {
+  padding: 0.5rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+/* Warna tombol sesuai jenis */
+#btnUpload {
+  background-color: #16a34a; /* hijau */
+  color: white;
+}
+
+#btnUpload:hover {
+  background-color: #15803d; /* hijau gelap */
+}
+
+#btnHapus {
+  background-color: #dc2626; /* merah */
+  color: white;
+}
+
+#btnHapus:hover {
+  background-color: #b91c1c; /* merah gelap */
+}
+
+/* Container tombol Upload & Hapus supaya presisi tengah */
+div.flex.gap-4 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+/* Responsive agar tombol tetap rapih di mobile */
+@media (max-width: 768px) {
+  div.flex.gap-4 {
+    flex-direction: column;
+  }
+
+  #btnUpload,
+  #btnHapus {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Style tambahan untuk menghindari tombol melebar berlebihan */
+#btnUpload,
+#btnHapus {
+  min-width: 140px;
+  max-width: 280px;
+}
+
+/* Style notifikasi dan upload status */
+#notifikasi,
+#uploadStatus {
+  padding: 1rem;
+  border-radius: 0.75rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+#notifikasi.show,
+#uploadStatus.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Warna dasar berhasil */
+.bg-green-50 {
+  background-color: #dcfce7;
+}
+
+.border-green-200 {
+  border: 1px solid #bbf7d0;
+}
+
+.text-green-700 {
+  color: #15803d;
+}
+
+/* Warna dasar gagal */
+.bg-red-50 {
+  background-color: #fee2e2;
+}
+
+.border-red-200 {
+  border: 1px solid #fecaca;
+}
+
+.text-red-700 {
+  color: #b91c1c;
+}
+
+/* Warna dasar info */
+.bg-blue-50 {
+  background-color: #dbeafe;
+}
+
+.border-blue-200 {
+  border: 1px solid #bfdbfe;
+}
+
+.text-blue-700 {
+  color: #1e40af;
+}
+
+/* Style tabel */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+thead tr {
+  background-color: #f3f4f6;
+  color: #374151;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f9fafb;
+}
+
+tbody tr:hover {
+  background-color: #e0e7ff;
+}
+
+th,
+td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+th:last-child,
+td:last-child {
+  text-align: center;
+}
+
+/* Font untuk nominal */
+td.font-mono {
+  font-family: "Roboto Mono", monospace;
+}
+
+/* Tombol minimalis dan ikon, jika ada */
+.btn-minimalis {
+  background-color: transparent;
+  border: none;
+  color: #2563eb;
+  cursor: pointer;
+  padding: 6px 10px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border-radius: 4px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.btn-minimalis:hover {
+  background-color: #2563eb;
+  color: white;
+}
+
+.btn-icon {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  color: #2563eb;
+}
+
+.btn-icon:hover {
+  background-color: #2563eb;
+  color: white;
+}
+
+/* Header judul dengan ikon dan teks presisi tengah */
+h2.flex.items-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  font-size: 1.25rem;
+  color: #374151; /* abu gelap */
+  text-align: center;
+  user-select: none; /* optional agar teks tidak terselect cepat */
+}
+
+/* Untuk ikon di dalam header */
+h2.flex.items-center i.fas {
+  font-size: 1.5rem;
+  color: #7c3aed; /* ungu tone */
+  flex-shrink: 0;
+}
+
+/* Responsive untuk mobile */
+@media (max-width: 768px) {
+  h2.flex.items-center {
+    font-size: 1.125rem;
+    gap: 0.4rem;
+  }
+
+  h2.flex.items-center i.fas {
+    font-size: 1.25rem;
+  }
+}

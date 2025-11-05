@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sistem Input Harian Data Jimpitan</title>
+
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#7c3aed" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="JimpitanApp" />
+
+    <!-- Performance Optimizations -->
+    <!-- Preload critical resources -->
+    <link
+      rel="preload"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
+    <link
+      rel="preload"
+      href="https://cdn.tailwindcss.com"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
+
+    <!-- Preconnect to CDNs -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+    <link rel="preconnect" href="https://cdn.tailwindcss.com" />
+
+    <!-- DNS prefetch untuk external domains -->
+    <link rel="dns-prefetch" href="https://input.pnakote.my.id" />
+
+    <!-- Absolute URLs untuk GitHub Pages -->
+    <link
+      rel="manifest"
+      href="https://santri-programmer.github.io/baru/manifest.json"
+    />
+    <link
+      rel="apple-touch-icon"
+      href="https://santri-programmer.github.io/baru/icons/icon-152x152.png"
+    />
+
+    <!-- Stylesheets -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://santri-programmer.github.io/baru/style.css"
+    />
+
+    <!-- Non-blocking CSS fallback -->
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      />
+      <link rel="stylesheet" href="https://cdn.tailwindcss.com" />
+    </noscript>
+  </head>
+  <body class="bg-gray-50 min-h-screen">
+    <!-- Network Status Indicator -->
+    <div
+      id="networkStatus"
+      class="fixed top-4 right-4 bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm flex items-center gap-2 z-50 transition-all duration-300"
+    >
+      <i class="fas fa-wifi text-green-500"></i> Online
+    </div>
+
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+      <header class="text-center mb-8">
+        <h1 class="text-3xl md:text-4xl font-bold text-purple-700 mb-2">
+          <i class="fas fa-journal-whills mr-3"></i>Sistem Input Harian
+        </h1>
+        <div
+          id="tanggalHariIni"
+          class="inline-block bg-white px-4 py-2 rounded-lg shadow-sm text-gray-700 mb-4"
+        ></div>
+      </header>
+
+      <div
+        id="notifikasi"
+        class="mb-4 md:mb-6 text-center p-3 md:p-4 rounded-xl transition-all duration-300"
+      ></div>
+
+      <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+          <i class="fas fa-plus-circle mr-2 text-purple-500"></i>Tambah Nominal
+        </h2>
+
+        <div class="mb-4">
+          <label
+            for="kategoriDonatur"
+            class="block text-sm font-medium text-gray-700 mb-1"
+            >Pilih Kategori RT</label
+          >
+          <select
+            id="kategoriDonatur"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+          >
+            <option value="kategori1" selected>RT Tengah</option>
+            <option value="kategori2">RT Kulon</option>
+            <option value="kategori3">RT Kidul</option>
+          </select>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+          <div>
+            <label
+              for="donatur"
+              class="block text-sm font-medium text-gray-700 mb-1"
+              >Nama</label
+            >
+            <select
+              id="donatur"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+            >
+              <option value="">Pilih Donatur</option>
+            </select>
+          </div>
+          <div>
+            <label
+              for="pemasukan"
+              class="block text-sm font-medium text-gray-700 mb-1"
+              >Nominal Input</label
+            >
+            <input
+              type="number"
+              id="pemasukan"
+              placeholder="Masukkan nominal"
+              min="0"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+            />
+          </div>
+          <div class="flex items-end">
+            <button
+              id="btnTambah"
+              class="w-full bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded-lg transition duration-200 flex items-center justify-center gap-2"
+            >
+              <span id="btnText">Tambah</span>
+              <i class="fas fa-plus"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-2 mt-4">
+          <button
+            class="quick-amount bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 px-3 rounded-lg text-sm transition duration-200"
+            data-amount="0"
+          >
+            Rp 0
+          </button>
+          <button
+            class="quick-amount bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 px-3 rounded-lg text-sm transition duration-200"
+            data-amount="1000"
+          >
+            Rp 1,000
+          </button>
+          <button
+            class="quick-amount bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 px-3 rounded-lg text-sm transition duration-200"
+            data-amount="2000"
+          >
+            Rp 2,000
+          </button>
+          <button
+            class="quick-amount bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 px-3 rounded-lg text-sm transition duration-200"
+            data-amount="5000"
+          >
+            Rp 5,000
+          </button>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-xl shadow-md p-6 mb-6 overflow-x-auto">
+        <div
+          class="flex flex-col md:flex-row md:items-center md:justify-between mb-4"
+        >
+          <h2 class="text-xl font-semibold text-gray-800 flex items-center">
+            <i class="fas fa-list-alt mr-2 text-purple-500"></i>Daftar Input
+            Hari Ini
+          </h2>
+          <div class="flex items-center gap-2 mt-2 md:mt-0">
+            <span
+              id="dataCount"
+              class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm"
+            >
+              0 data
+            </span>
+            <button
+              id="btnRefresh"
+              class="bg-gray-100 hover:bg-gray-200 text-gray-700 p-2 rounded-lg transition duration-200"
+            >
+              <i class="fas fa-sync-alt"></i>
+            </button>
+          </div>
+        </div>
+
+        <table id="tabelDonasi" class="w-full text-left">
+          <thead>
+            <tr class="bg-gray-100 text-gray-700">
+              <th class="py-3 px-4 md:px-6 rounded-tl-lg">Nama</th>
+              <th class="py-3 px-4 md:px-6 text-right">Nominal</th>
+              <th class="py-3 px-4 md:px-6 text-center rounded-tr-lg">Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Isi data akan di-render via JS -->
+          </tbody>
+          <tfoot>
+            <tr class="bg-gray-50 border-t border-gray-200">
+              <td class="py-3 px-4 md:px-6 font-semibold">Total</td>
+              <td
+                id="totalDonasi"
+                class="py-3 px-4 md:px-6 text-right font-mono font-semibold text-purple-700"
+              >
+                Rp 0
+              </td>
+              <td class="py-3 px-4 md:px-6"></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <div class="bg-white rounded-xl shadow-md p-6">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+          <i class="fas fa-cloud-upload-alt mr-2 text-purple-500"></i>Upload ke
+          Google Sheets
+        </h2>
+
+        <div
+          id="uploadStatus"
+          class="mb-4 text-center p-4 rounded-xl transition-all duration-300"
+        ></div>
+
+        <div
+          class="flex flex-col md:flex-row md:items-center justify-center gap-4 p-4 text-gray-600 mb-4"
+        >
+          <i class="fas fa-info-circle mr-2 text-blue-500"></i>
+          <span id="uploadInfo">Upload data input ke Google Sheets</span>
+        </div>
+
+        <div class="flex justify-center gap-4 flex-wrap">
+          <button
+            id="btnUpload"
+            class="bg-green-600 hover:bg-green-700 text-white py-2 px-6 rounded-lg transition duration-200 flex items-center justify-center gap-2 min-w-[140px] max-w-[280px]"
+          >
+            <i class="fas fa-upload"></i>Upload Data
+          </button>
+          <button
+            id="btnHapus"
+            class="bg-red-600 hover:bg-red-700 text-white py-2 px-6 rounded-lg transition duration-200 flex items-center justify-center gap-2 min-w-[140px] max-w-[280px]"
+          >
+            <i class="fas fa-trash-alt"></i>Hapus Data
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScript Files dengan Absolute URLs -->
+    <script src="https://santri-programmer.github.io/baru/db.js"></script>
+    <script src="https://santri-programmer.github.io/baru/script.js"></script>
+
+    <!-- Service Worker Registration & PWA Setup -->
+    <script>
+      // Konfigurasi GitHub Pages
+      const GITHUB_URL = "https://santri-programmer.github.io/baru/";
+
+      // Service Worker Registration untuk GitHub Pages
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", function () {
+          navigator.serviceWorker
+            .register(`${GITHUB_URL}sw.js`, {
+              scope: `${GITHUB_URL}`,
+            })
+            .then(function (registration) {
+              console.log(
+                "✅ Service Worker registered with scope:",
+                registration.scope
+              );
+
+              // Check if page is controlled by SW
+              if (navigator.serviceWorker.controller) {
+                console.log("✅ Page is controlled by Service Worker");
+              }
+
+              // Check for updates
+              registration.addEventListener("updatefound", () => {
+                const newWorker = registration.installing;
+                console.log("🔄 Service Worker update found!", newWorker);
+
+                newWorker.addEventListener("statechange", () => {
+                  if (
+                    newWorker.state === "installed" &&
+                    navigator.serviceWorker.controller
+                  ) {
+                    console.log("🔄 New content is available; please refresh.");
+                  }
+                });
+              });
+            })
+            .catch(function (error) {
+              console.log("❌ Service Worker registration failed:", error);
+            });
+        });
+      }
+
+      // Detect online/offline status
+      function updateOnlineStatus() {
+        const statusElement = document.getElementById("networkStatus");
+        if (!statusElement) return;
+
+        if (navigator.onLine) {
+          statusElement.innerHTML =
+            '<i class="fas fa-wifi text-green-500"></i> Online';
+          statusElement.className =
+            "fixed top-4 right-4 bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm flex items-center gap-2 z-50 transition-all duration-300";
+
+          // Try to sync offline data when coming online
+          if (window.syncOfflineData) {
+            setTimeout(() => {
+              window.syncOfflineData();
+            }, 2000);
+          }
+        } else {
+          statusElement.innerHTML =
+            '<i class="fas fa-wifi-slash text-red-500"></i> Offline';
+          statusElement.className =
+            "fixed top-4 right-4 bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm flex items-center gap-2 z-50 transition-all duration-300";
+        }
+      }
+
+      // Handle URL issues untuk GitHub Pages
+      document.addEventListener("DOMContentLoaded", function () {
+        const currentUrl = window.location.href;
+        const correctUrl = GITHUB_URL;
+
+        // Redirect jika URL tidak sesuai
+        if (currentUrl !== correctUrl && !currentUrl.includes("/new/")) {
+          console.log("🔄 Redirecting to correct URL:", correctUrl);
+          window.history.replaceState(null, null, correctUrl);
+        }
+
+        // Update network status
+        window.addEventListener("online", updateOnlineStatus);
+        window.addEventListener("offline", updateOnlineStatus);
+        updateOnlineStatus();
+
+        // Quick amount buttons (fallback untuk event delegation)
+        document.querySelectorAll(".quick-amount").forEach((button) => {
+          button.addEventListener("click", function () {
+            const amount = this.getAttribute("data-amount");
+            document.getElementById("pemasukan").value = amount;
+            document.getElementById("pemasukan").focus();
+          });
+        });
+
+        // Refresh button
+        document
+          .getElementById("btnRefresh")
+          ?.addEventListener("click", function () {
+            if (window.location) {
+              window.location.reload();
+            }
+          });
+
+        // Set today's date
+        const tanggalHariIni = new Date().toLocaleDateString("id-ID", {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        });
+        document.getElementById(
+          "tanggalHariIni"
+        ).innerHTML = `<i class="fas fa-calendar-day mr-2 text-purple-500"></i>${tanggalHariIni}`;
+      });
+
+      // Handle app installed event
+      window.addEventListener("appinstalled", () => {
+        console.log("🎉 PWA was installed");
+      });
+    </script>
+  </body>
+</html>
