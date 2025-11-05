@@ -1,6 +1,6 @@
 {
   "name": "Sistem Input Harian Data Jimpitan",
-  "short_name": "JimpitanApp",
+  "short_name": "Nakote",
   "description": "Aplikasi input data jimpitan harian - bekerja offline",
   "start_url": "https://santri-programmer.github.io/baru/",
   "display": "standalone",
