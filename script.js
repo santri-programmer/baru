@@ -86,6 +86,20 @@ let db;
 // ======= INITIALIZATION =======
 document.addEventListener('DOMContentLoaded', async function() {
   try {
+    // Tunggu hingga DOM benar-benar siap
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', await initializeApp);
+    } else {
+      await initializeApp();
+    }
+  } catch (error) {
+    console.error('❌ Failed to initialize app:', error);
+    showNotification('Gagal menginisialisasi aplikasi', false);
+  }
+});
+
+async function initializeApp() {
+  try {
     // Initialize performance optimizations
     preloadCriticalResources();
     
@@ -101,8 +115,18 @@ document.addEventListener('DOMContentLoaded', async function() {
     showNotification('Gagal menginisialisasi penyimpanan offline', false);
   }
 
-  // Initialize cached DOM elements
+  // Initialize cached DOM elements - PASTIKAN INI DIPANGGIL PERTAMA
   initializeCachedElements();
+  
+  // Cek apakah semua elemen penting sudah ter-cache
+  if (!cachedElements.btnUpload) {
+    console.error('❌ btnUpload element not found in DOM');
+    showNotification('Elemen penting tidak ditemukan, memuat ulang...', false);
+    setTimeout(() => {
+      location.reload();
+    }, 2000);
+    return;
+  }
   
   // Load initial data menggunakan batched updates
   batchedUpdates.add(async () => {
@@ -114,7 +138,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
   // Add event listeners
   setupEventListeners();
-});
+}
 
 function initializeCachedElements() {
   cachedElements = {
